@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns = "http://www.w3.org/1999/xhtml" xmlns:th = "http://www.thymeleaf.org">
+<head th:replace = "fragments/commons::head">
+</head>
+<body>
+<header th:replace = "fragments/commons::nav">
+</header>
+<main >
+    <h1 class="text-center mt-2"><span class="badge badge-pill badge-dark">All products</span></h1>
+    <hr class="hr-3"/>
+    <div class="container-fluid" >
+
+        <div class="offers row mx-auto d-flex flex-row justify-content-center" th:each="product : ${products}" >
+            <div  class="offer card col-sm-6 col-md-3  col-lg-2 m-1 p-0 ">
+                <a method="">
+                    <div class="card-body pb-1">
+                        <div th:each="product : ${products}">
+                            <!--<img th:if="${product.category.getName() == Foundation }" th:src="/img/fnd.png" alt="Product Image">&ndash;&gt;-->
+<!--                        <img th:if="${product.category.name.Foundation}" class="card-img-top" src="/img/fnd.jpg" alt="Card image cap">-->
+<!--                        <img th:if="${product.category.name.Bronzer}" class="card-img-top" src="/img/bronzer.jpg" alt="Card image cap">-->
+<!--                     <img th:if="${product.category.getName().Brushes}" class="card-img-top" src="/img/brushes.jpg" alt="Card image cap">-->
+<!--                     <img th:if="${product.category.getName().Eyebrows}" class="card-img-top" src="/img/eyebrows.jpg" alt="Card image cap">-->
+<!--                     <img th:if="${product.category.getName().Mascara}" class="card-img-top" src="/img/mascara.jpg" alt="Card image cap">-->
+<!--                     <img th:if="${product.category.getName().Powder}" class="card-img-top" src="/img/powder.jpg" alt="Card image cap">-->
+                            <h5  class="card-title text-center"><span th:text="${product.name}"></span></h5>
+                            <img th:src="${'/path/to/your/application/' + product.productImage.imageFileName}" alt="Product Image">
+                        </div>
+                    </div>
+                    <ul class="offer-details list-group list-group-flush">
+                        <li class="list-group-item">
+                            <div  class="card-text text-center"><span th:text="${product.price}"></span></div>
+                        </li>
+                        <button type="button" class="btn btn-success">Add Product</button>
+                    </ul>
+                </a>
+            </div>
+        </div>
+    </div>
+</main>
+<footer th:replace = "fragments/commons::footer">
+</footer>
+</body>
+</html>
