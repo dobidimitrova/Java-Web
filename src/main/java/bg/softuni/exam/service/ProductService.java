@@ -11,8 +11,6 @@ import java.util.List;
 public interface ProductService {
     void addProduct(ProductServiceModel productServiceModel);
 
-    List<Category> findAllByCategoryName(CategoryNameEnum categoryNameEnum);
-
     List<Product> getAllProducts();
 
 

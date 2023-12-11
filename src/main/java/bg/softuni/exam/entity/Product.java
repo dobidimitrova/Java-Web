@@ -3,7 +3,7 @@ package bg.softuni.exam.entity;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Entity
 @Table(name = "products")
@@ -25,8 +25,6 @@ public class Product {
     @ManyToOne
     private Category category;
 
-    @OneToOne(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
-    private ProductImage productImage;
 
     public Product() {
     }
@@ -39,13 +37,6 @@ public class Product {
         this.id = id;
     }
 
-    public ProductImage getProductImage() {
-        return productImage;
-    }
-
-    public void setProductImage(ProductImage productImage) {
-        this.productImage = productImage;
-    }
 
     public String getName() {
         return name;

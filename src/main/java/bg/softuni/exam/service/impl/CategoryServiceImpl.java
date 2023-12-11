@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CategoryServiceImpl implements CategoryService {
@@ -43,4 +44,11 @@ public class CategoryServiceImpl implements CategoryService {
     public List<Category> getAllCategories() {
         return categoryRepository.findAll();
     }
+
+    @Override
+    public Category getCategoryByName(String categoryName) {
+        return categoryRepository.findByName(CategoryNameEnum.valueOf(categoryName))
+                .orElseThrow(() -> new RuntimeException("Category not found: " + categoryName));
+    }
+
 }

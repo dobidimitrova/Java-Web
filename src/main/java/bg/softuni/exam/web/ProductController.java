@@ -1,10 +1,7 @@
 package bg.softuni.exam.web;
 
 import bg.softuni.exam.entity.Category;
-import bg.softuni.exam.entity.Product;
-import bg.softuni.exam.entity.ProductImage;
 import bg.softuni.exam.models.ProductAddModel;
-
 import bg.softuni.exam.models.ProductServiceModel;
 import bg.softuni.exam.service.CategoryService;
 import bg.softuni.exam.service.ProductService;
@@ -13,11 +10,12 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.io.IOException;
 import java.util.List;
 
 @Controller
@@ -58,26 +56,37 @@ public class ProductController {
     @PostMapping("/add")
     public String addConfirm(@Valid ProductAddModel productAddModel,
                              BindingResult bindingResult,
-                             RedirectAttributes redirectAttributes,
-                             @ModelAttribute Product product,
-                             @RequestParam("file") MultipartFile file) throws IOException {
+                             RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("productAddModel", productAddModel);
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.productAddModel", bindingResult);
             return "product-add";
         }
 
-        ProductImage productImage = new ProductImage();
-        productImage.setImageData(file.getBytes());
-        productImage.setImageFileName(file.getOriginalFilename());
-        productImage.setImageMimeType(file.getContentType());
-        productImage.setProduct(product);
 
-        productService.addProduct(modelMapper.map(productAddModel, ProductServiceModel.class));
+        String categoryName = productAddModel.getCategory();
+        if(categoryName.equals("1")){
+            categoryName="Foundation";
+        } else if(categoryName.equals("2")){
+            categoryName="Powder";
+        } else if(categoryName.equals("3")){
+            categoryName="Bronzer";
+        } else if(categoryName.equals("4")){
+            categoryName="Mascara";
+        } else if(categoryName.equals("5")){
+            categoryName="Eyebrows";
+        } else if(categoryName.equals("6")){
+            categoryName="Brushes";
+        }
+
+        Category category = categoryService.getCategoryByName(categoryName);
+
+        ProductServiceModel productServiceModel = modelMapper.map(productAddModel, ProductServiceModel.class);
+        productServiceModel.setCategory(category.getName());
+
+        productService.addProduct(productServiceModel);
 
         return "redirect:/";
-
-
     }
 
 }
